@@ -16,3 +16,37 @@
 #Source: 
 #https://en.wikipedia.org/wiki/CYK_algorithm#As_pseudocode
 
+def help():
+	print("TODO HELP")
+
+def readGrammar():
+	
+
+def parser():
+	print("PARS")
+
+
+def main():
+	print("CYK Parser - Menu")
+	print("1 - Enter word")
+	print("2 - Start parsing")
+	print("3 - Help")
+	x = input("Your choice?")
+
+	if x == '1':
+		WORD = input("Enter the word to test \n")
+		print (WORD)
+
+	elif x == '2':
+		readGrammer()
+		parse()
+	elif x == '3': 
+		help()
+	else:
+		print("Wrong input")
+
+
+
+
+if __name__ == "__main__":
+    main()
