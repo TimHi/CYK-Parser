@@ -16,36 +16,32 @@
 #Source: 
 #https://en.wikipedia.org/wiki/CYK_algorithm#As_pseudocode
 
-def help():
-	print("TODO HELP")
+#Rules S -> AB
+#To SAB 
+import os
 
+#	gFile = open("grammar.cfg", "r")
+#	for line in gFile.readline():
+#		rules = gFile.readline()
+#	print ("SOMETHIN?")
 def readGrammar():
-	
+	with open('grammar.cfg') as gFile:
+		for line in gFile:
+			print line
+			rules = line
+		print rules
 
-def parser():
-	print("PARS")
+def parser(WORD):
+	print("PARSE")
+	lengthW = len(WORD)
+	print lengthW
 
 
 def main():
-	print("CYK Parser - Menu")
-	print("1 - Enter word")
-	print("2 - Start parsing")
-	print("3 - Help")
-	x = input("Your choice?")
-
-	if x == '1':
-		WORD = input("Enter the word to test \n")
-		print (WORD)
-
-	elif x == '2':
-		readGrammer()
-		parse()
-	elif x == '3': 
-		help()
-	else:
-		print("Wrong input")
-
-
+	WORD = raw_input("Enter the word to test \n")
+	print WORD
+	readGrammar()
+	parser(WORD)
 
 
 if __name__ == "__main__":
