@@ -35,6 +35,7 @@ def parser(WORD):
 	print("PARSE")
 	lengthW = len(WORD)
 	print lengthW
+	
 
 
 def main():
