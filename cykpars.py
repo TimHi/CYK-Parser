@@ -16,33 +16,60 @@
 #Source: 
 #https://en.wikipedia.org/wiki/CYK_algorithm#As_pseudocode
 
-#Rules S -> AB
-#To SAB 
-import os
 
-#	gFile = open("grammar.cfg", "r")
-#	for line in gFile.readline():
-#		rules = gFile.readline()
-#	print ("SOMETHIN?")
-def readGrammar():
-	with open('grammar.cfg') as gFile:
-		for line in gFile:
-			print line
-			rules = line
-		print rules
+import os
+from grammar import rules
+
+#Read the grammar rules from cfg File
+#Rules are saved in a dictionary in the form SXY or Sa
+#def readGrammar():
+	#rules = {}
+	#x = 0
+	#with open('grammar.cfg') as gFile:
+	#	for line in gFile:
+	#		stringT = line
+	#		stringT = stringT.replace(" -> ", "")
+	#		stringT = stringT.replace("\n", "")
+	#		rules[x] = stringT
+	#		x += 1
+	#	print rules
 
 def parser(WORD):
 	print("PARSE")
 	lengthW = len(WORD)
-	print lengthW
+	#print lengthW
+	#Height of array, + 1 because the word isnt part of the algorithm
+
+	lengthH = lengthW + 1
+	Matrix = [[0 for x in range(lengthW)] for y in range(lengthH)]
+
+	#Fill first row with the word to parse 
+	for x in range(lengthW):
+		Matrix[0][x] = WORD[x]
+	i = 0 
+	j = 0
+
+	for i in range(lengthW):
+		tempC = Matrix[0][i]
+		if tempC in rules:
+			Matrix[1][i] = "FOUND"
+			tempT = rules.get(tempC)
+			Matrix[1][i] = tempT
+
 	
+	print Matrix[1][0]
+	print Matrix[1][1]
+	print Matrix[1][2]
+	print Matrix[1][3]
+
 
 
 def main():
 	WORD = raw_input("Enter the word to test \n")
-	print WORD
-	readGrammar()
+#	readGrammar()
+	#print rules
 	parser(WORD)
+
 
 
 if __name__ == "__main__":
