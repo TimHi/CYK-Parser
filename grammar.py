@@ -1,16 +1,10 @@
 #Example of Rules:
 #S -> AB
-#S -> BD
-#A -> BA
-#A -> a
-#B -> b
-#D -> AB
+#A -> CD|CF
+#B -> b|EB
+#C -> a
+#D -> b
+#E -> c
+#F -> AD
 
-rules = {
-	"AB" : "S",
-	"BD" : "S",
-	"AB" : "D",
-	"b" : "B",
-	"a" : "A"
-}
-
+rules = {'S': ['AB'],'A': ['CD','CF'], 'B': ['c','EB'], 'C': ['a'], 'D' : ['b'], 'E' : ['c'], 'F' : ['AD']}
