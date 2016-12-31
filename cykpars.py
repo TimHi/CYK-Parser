@@ -26,7 +26,7 @@ def printMatrix(Matrix, lengthW):
 
 	for c in range(lengthHeight):
 		#print (c)
-		#print('\n')
+		print('\n')
 		for v in range(lengthW):
 			#print(v)
 			print(Matrix[c][v])
@@ -67,21 +67,23 @@ def parser(WORD):
 		Matrix[1][i] = foundC
 	#Print Matrix after first row 
 	printMatrix(Matrix, lengthW)
-	
+
 	#---------------------------
 	#What happens now:
-	#-3 for loops
+	#One step:
 	#Outer = Field thats currently to be filled
 	#Middle = Field under outer, goes down straight
+	#Write everything in a list, remember position
 	#Inner = Diagonal "up" right, goes down diagonal
-	#Then check every step if Middle + Inner = in rules
-	#Write every possibility in there
-	#If not leave it 
+	#Checks list with current field if there is a combination found
+	#write it in outer loop
+	#Clear list
 	#----------------------------
 	#When the loops are over go to 
 	#Matrix[0][lengthH]
-	#And test if there is a S
-
+	#And check if there is a S
+	#----------------------------
+	#Functions! 
 
 def main():
 	WORD = input("Enter the word to test \n")
