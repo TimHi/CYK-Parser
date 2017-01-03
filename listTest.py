@@ -32,13 +32,24 @@ indexList = 0
 #print len(mylist)
 #4
 
+combList = []
+posList=[['A', 'J'], ['C']]
+tmpC = ['E', 'R']
 
-posList=[['A'], ['C']]
-tmpC = ['E', 'B']
-print(len(posList))
-print(len(tmpC))
-for i in range(len(tmpC)):
-	print(tmpC[i])
 
-print(tmpC[1])
-checkC = ''.join(item for item in posList[indexList] + tmpC)
+for u in range(len(posList)):
+	indexG = len(posList[u])
+	indexD = len(tmpC) 
+	for i in range(len(tmpC)):
+		for o in range(indexG):
+			tempJ = posList[u][o]
+			tempK = tmpC[i] 
+			#print("j", tempJ, "k", tempK)
+			checkC = ''.join(item for item in posList[u][o] + tmpC[i])
+			#checkC = ''.join(item for item in posList[u][1] + tmpC[i])
+			combList.append(checkC)
+			
+
+#print(tmpC[1])
+#checkC = ''.join(item for item in posList[indexList] + tmpC)
+print(combList)

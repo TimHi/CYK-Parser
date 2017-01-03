@@ -22,6 +22,19 @@ def initArray(WORD):
 	return tArray
 
 
+def findFinalRules(charItem):
+	rulesFound = []
+	#charItem: ['CB, CF']
+	#rule: AB
+	print(len(charItem))
+	for i,j in range(len(charItem)):
+		for h,k in rules.items():
+			for charItem in j:
+				for rule in k:
+					if rule == charItem:
+						rulesFound.append(i)
+	return rulesFound
+
 def parse(WORD, array, wHeight, u):
 	#print(u)
 	print("------------FUNCTION START----------------")
@@ -44,15 +57,20 @@ def parse(WORD, array, wHeight, u):
 					dummy = 9
 				else:
 					#print("I = ", i, "inDown= ", inDown)
+
 					tempC = array[inDown][i]
-					print("tempC: ", tempC, "an Stelle Height:", inDown, "Right: ", i)
-					#array[inDown][i] = ['H']
-					#print(tempC)
-					possibleProductions.append(tempC)
-					print("Possible Production:", possibleProductions)
-					#straight downwards
-					inDown = inDown - 1 
+					if(tempC == 0):
+						dummy = 9
+					else:
+						print("tempC: ", tempC, "an Stelle Height:", inDown, "Right: ", i)
+						#array[inDown][i] = ['H']
+						#print(tempC)
+						possibleProductions.append(tempC)
+						print("Possible Production:", possibleProductions)
+						#straight downwards
+						inDown = inDown - 1 
 			for k in range(1, wHeight):
+				combList = []
 				indexList = 0
 				inRight = u 
 				inHeight = i
@@ -61,17 +79,36 @@ def parse(WORD, array, wHeight, u):
 				if(tempD == 0):
 					dummy = 10
 				else:
-					#checkC = tempC.join(possibleProductions[indexList])
-					#checkC = possibleProductions[indexList] + tempC
-					checkC = ''.join(item for item in possibleProductions[indexList] + tempD)
+					for g in range(len(possibleProductions)):
+						indexG = np.size(possibleProductions[g])
+						
+						indexD = len(tempD) 
+						for h in range(len(tempD)):
+							for o in range(indexG):
+								if(tempD[h] == 0):
+									dummy = 9
+								else:
 
-					#for o in range()
-					#checkC = possibleProductions[indexList][0] + tempC[0]
-					print("CheckC: ", checkC)
-					foundC = findRules(checkC)
-					print("foundC: ", foundC)
+									print(possibleProductions[g][o])
+									print(tempD[h])
+									checkC = ''.join(item for item in possibleProductions[g][o] + tempD[h])
+									#checkC = ''.join(item for item in posList[u][1] + temD[i])
+									combList.append(checkC)
 				
-					array[u][i] = foundC
+									#checkC = tempC.join(possibleProductions[indexList])
+									#checkC = possibleProductions[indexList] + tempC
+									#ALT:
+									#checkC = ''.join(item for item in possibleProductions[indexList] + tempD)
+
+									#for o in range()
+									#checkC = possibleProductions[indexList][0] + tempC[0]
+									#print("CheckC: ", checkC)
+									#foundC = findRules(checkC)
+									print("--comblist-")
+									print(combList)
+									foundC = findFinalRules(combList)
+									print("foundC: ", foundC)
+									array[u][i] = foundC
 				#Diagonal upwards
 				inRight = inRight - 1
 				inHeight = inHeight + 1
