@@ -1,35 +1,6 @@
-#let the input be a string I consisting of n characters: a1 ... an.
-#let the grammar contain r nonterminal symbols R1 ... Rr, with start symbol R1.
-#let P[n,n,r] be an array of booleans. Initialize all elements of P to false.
-#for each s = 1 to n
-#  for each unit production Rv -> as
-#    set P[1,s,v] = true
-#for each l = 2 to n -- Length of span
-#  for each s = 1 to n-l+1 -- Start of span
-#    for each p = 1 to l-1 -- Partition of span
-#      for each production Ra -> Rb Rc
-#        if P[p,s,b] and P[l-p,s+p,c] then set P[l,s,a] = true
-#if P[n,1,1] is true then
-#  I is member of language
-#else
-#  I is not member of language
-#Source: 
-#https://en.wikipedia.org/wiki/CYK_algorithm#As_pseudocode
-
-
 import os
+import numpy as np
 from grammar import rules
-
-def printMatrix(Matrix, lengthW):
-	
-	lengthHeight = lengthW + 1
-
-	for c in range(lengthHeight):
-		#print (c)
-		print('\n')
-		for v in range(lengthW):
-			#print(v)
-			print(Matrix[c][v])
 
 def findRules(charItem):
 	#Empty list to collect the rules found for the
@@ -44,50 +15,59 @@ def findRules(charItem):
 				rulesFound.append(i)
 	return rulesFound
 
+def initArray(WORD):
+	length = len(WORD)
+	height = length
+	tArray = np.empty([height, length], list)
+	return tArray
 
-def parser(WORD):
-	lengthW = len(WORD)
-	#Height of array, + 1 because the word isnt part of the algorithm
-	lengthH = lengthW + 1
-	#Initialize Matrix 
-	Matrix = [[0 for x in range(lengthW)] for y in range(lengthH)]
 
-	#Fill first row with the word to parse 
-	for x in range(lengthW):
-		Matrix[0][x] = WORD[x]
-	#Parse Terminalsymbols
-	#seperate loop because if there is a symbol that cant be
-	#deducted through a rule the word cant be build
-	for i in range(lengthW):
-		findC = Matrix[0][i]
+def parse(WORD, array, wHeight, u):
+	print(u)
+	print(array)
+	length = len(WORD)
+	length = (length - u) 
+	if(u == 0):
+		return array
+	else:
+		for i in range(length):
+			for z in range(wHeight):
+				for k in range(wHeight):
+					#Diagonal/Senkrecht checken, 
+
+
+def parseFirst(WORD, array):
+	possibleProductions = {}
+	length = len(WORD)
+	height = length
+
+	#parse first row of array
+	#do this seperatly because if one terminalsymbol
+	#cant be deducted the word cant be build
+	for i in range(length):
+		findC = WORD[i]
 		foundC = findRules(findC)
+		array[0][i] = foundC
 		if(len(foundC) == 0):
 			print("Word cant be build")
+			print(array)
 			return 1
-		Matrix[1][i] = foundC
-	#Print Matrix after first row 
-	printMatrix(Matrix, lengthW)
+	#print(array)
+	return array
 
-	#---------------------------
-	#What happens now:
-	#One step:
-	#Outer = Field thats currently to be filled
-	#Middle = Field under outer, goes down straight
-	#Write everything in a list, remember position
-	#Inner = Diagonal "up" right, goes down diagonal
-	#Checks list with current field if there is a combination found
-	#write it in outer loop
-	#Clear list
-	#----------------------------
-	#When the loops are over go to 
-	#Matrix[0][lengthH]
-	#And check if there is a S
-	#----------------------------
-	#Functions! 
+
+
+
 
 def main():
 	WORD = input("Enter the word to test \n")
-	parser(WORD)
+	array = initArray(WORD)
+	array = parseFirst(WORD, array)
+	#loop:
+	wHeight = len(WORD)
+	for u in range(1, wHeight):
+		parse(WORD, array, wHeight, u)
+
 
 if __name__ == "__main__":
-    main()
+	main()
