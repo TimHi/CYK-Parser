@@ -18,22 +18,69 @@ def findRules(charItem):
 def initArray(WORD):
 	length = len(WORD)
 	height = length
-	tArray = np.empty([height, length], list)
+	tArray = np.zeros([height, length], list)
 	return tArray
 
 
 def parse(WORD, array, wHeight, u):
-	print(u)
+	#print(u)
+	print("------------FUNCTION START----------------")
 	print(array)
+	possibleProductions = []
 	length = len(WORD)
 	length = (length - u) 
 	if(u == 0):
 		return array
 	else:
+		#CHECK LOOP NEST IF CORRECT
 		for i in range(length):
-			for z in range(wHeight):
-				for k in range(wHeight):
-					#Diagonal/Senkrecht checken, 
+			possibleProductions = []
+			inDown = u - 1
+			for z in range(1, wHeight):
+				
+				if(u == 0):
+					dummy = 9
+				elif(inDown < 0):
+					dummy = 9
+				else:
+					#print("I = ", i, "inDown= ", inDown)
+					tempC = array[inDown][i]
+					print("tempC: ", tempC, "an Stelle Height:", inDown, "Right: ", i)
+					#array[inDown][i] = ['H']
+					#print(tempC)
+					possibleProductions.append(tempC)
+					print("Possible Production:", possibleProductions)
+					#straight downwards
+					inDown = inDown - 1 
+			for k in range(1, wHeight):
+				indexList = 0
+				inRight = u 
+				inHeight = i
+				tempD = array[inHeight][inRight]
+				print("Diagonal tempD: ", tempD )
+				if(tempD == 0):
+					dummy = 10
+				else:
+					#checkC = tempC.join(possibleProductions[indexList])
+					#checkC = possibleProductions[indexList] + tempC
+					checkC = ''.join(item for item in possibleProductions[indexList] + tempD)
+
+					#for o in range()
+					#checkC = possibleProductions[indexList][0] + tempC[0]
+					print("CheckC: ", checkC)
+					foundC = findRules(checkC)
+					print("foundC: ", foundC)
+				
+					array[u][i] = foundC
+				#Diagonal upwards
+				inRight = inRight - 1
+				inHeight = inHeight + 1
+				indexList = indexList + 1
+
+
+
+	print("------------FUNCTION END----------------")
+	return array
 
 
 def parseFirst(WORD, array):
@@ -66,7 +113,8 @@ def main():
 	#loop:
 	wHeight = len(WORD)
 	for u in range(1, wHeight):
-		parse(WORD, array, wHeight, u)
+		array = parse(WORD, array, wHeight, u)
+	print(array)
 
 
 if __name__ == "__main__":
