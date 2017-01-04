@@ -9,7 +9,7 @@ from grammar import rules
 
 
 array = np.zeros([4, 4], int)
-array[1][3] = 1
+array[1][0] = 2
 print(array)
 
 
@@ -21,7 +21,23 @@ print(array)
 
 
 
-
+#	for downCounter in range(heightDownIndexLoop):
+#			print("ZWEITER LOOP")
+#			#Straight down
+#			#Length of loop is the same
+#
+#			tempSign = array[currentLength][heightDownIndex]
+#			print("tempSign: ", tempSign)
+#			print("Von Stelle: ", currentLength, heightDownIndex)
+#			possibleProductions.append(tempSign)
+#			print(currentHeight, ". Reihe")
+#			print(possibleProductions)
+#			heightDownIndex = heightDownIndex - 1
+#		for diagLength in range(heightDiagLoop):
+#			print("DRITTER LOOP")
+#			#Diag up
+#			dum = 0
+#	print("---------------------END---------------------------------")
 
 
 
