@@ -41,7 +41,17 @@ def parseFirst(tWORD, array):
 	#print(array)
 	return array
 
-def getDiag(array):
+def getDiag(array, possibleProductions, currentLength, currentHeight):
+	#Get Diagonal item from array
+	#check with possible productions
+	
+
+
+
+
+
+
+
 	return array
 
 
@@ -77,7 +87,7 @@ def parse(tWORD, array, i):
 		possibleProductions = []
 		possibleProductions = getDown(array, possibleProductions, currentHeight, currentLength)
 		print("possible:", possibleProductions)
-		array = getDiag(array)
+		array = getDiag(array, possibleProductions, currentLength, currentHeight)
 	
 	return array
 
