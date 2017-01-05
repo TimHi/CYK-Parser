@@ -42,28 +42,30 @@ def parseFirst(tWORD, array):
 	return array
 
 
-def getDiag(array, possibleProductions, currentLength, currentHeight, length, i):
+def getDiag(array, possibleProductions, currentLength, currentHeight, length, i, diagList):
 	#Get Diagonal item from array
-	#check with possible productions
-	tempList = []
 	#Diag length is the current height + the current length
 	indexDiagLenght = currentHeight + currentLength
 	#Diag always starts at Height 0 
 	indexDiagHeight = 0
-	print("currentHeight", currentHeight)
+	#print("currentHeight", currentHeight)
 	for diagLoopIndex in range(currentHeight):
-		print("STELLE: ", indexDiagHeight, "|", indexDiagLenght)
-		print(array[indexDiagHeight][indexDiagLenght])
+		#print("STELLE: ", indexDiagHeight, "|", indexDiagLenght)
+		#print(array[indexDiagHeight][indexDiagLenght])
 		tempDiag = array[indexDiagHeight][indexDiagLenght]
-		tempList.append(tempDiag)
+		if(tempDiag == 0):
+			tempDiag = ['EMPTY']
+			diagList.append(tempDiag)
+		else: 
+			diagList.append(tempDiag)
 		#MOVE DIAG LEFT UP
 		indexDiagLenght = indexDiagLenght - 1
 		indexDiagHeight = indexDiagHeight + 1
 		
-	print("Loop finished Diag list:")
-	print(tempList)
-	#COMBINE POSSIBLELIST + TEMPLIST AND CHECK IF RULE IS FOUD
-	return array
+	#print("Loop finished Diag list:")
+	#print(diagList)
+	#COMBINE POSSIBLELIST + TEMPLIST AND CHECK IF RULE IS FOUND
+	return diagList
 
 
 #MIGHT BE FINE
@@ -76,7 +78,7 @@ def getDown(array, possibleProductions, currentHeight, currentLength):
 		tempSignal = array[indexHeight][currentLength]
 		if(tempSignal == 0):
 			possibleProductions.append(['EMPTY'])
-			print("No Production, ignore")
+			#print("No Production, ignore")
 		else:
 			#print("tempSignal", tempSignal)
 			#print("array:", array[indexHeight][currentLength])
@@ -85,7 +87,16 @@ def getDown(array, possibleProductions, currentHeight, currentLength):
 	#print("---EXIT GETDOWN")
 	return possibleProductions
 
-
+def checkCombinations(array, possibleProductions, diagList, currentLength, currentHeight):
+	print("CHECKING COMBINATIONS")
+	rulesFound = []
+	#charItem: ['CB, CF']
+	#rule: AB
+	print("possibleProductions:", possibleProductions, len(possibleProductions))
+	print("diagList: ", diagList, len(diagList))
+	#array[currentHeight][currentLenght] = foundComb
+	print("DONE CHECKING COMBINATIONS")
+	return array
 
 def parse(tWORD, array, i):
 	length = len(tWORD)
@@ -97,10 +108,16 @@ def parse(tWORD, array, i):
 		#print("----FOR LOOP----")
 		print("CHECKING HEIGHT: ",currentHeight, "LENGHTH:",  currentLength)
 		possibleProductions = []
+		diagList = []
 		possibleProductions = getDown(array, possibleProductions, currentHeight, currentLength)
-		#print("possible:", possibleProductions)
-		array = getDiag(array, possibleProductions, currentLength, currentHeight, length, i)
-	
+		diagList = getDiag(array, possibleProductions, currentLength, currentHeight, length, i, diagList)
+		
+		#print("possibleProductions:", possibleProductions)
+		#print("diagList: ", diagList)
+
+		array = checkCombinations(array, possibleProductions, diagList, currentLength, currentHeight)
+		
+		print("---LOOP ENDED---")
 	return array
 
 def main():
@@ -113,9 +130,9 @@ def main():
 	#WORD = input("Enter the word to test \n")
 	array = initArray(tWORD)
 	array = parseFirst(tWORD, array)
-	#
-	array[1][2] = ['G']
-	array[2][1] = ['K']
+	
+	#array[1][2] = ['G']
+	#array[2][1] = ['K']
 	for i in range(1, len(tWORD)):
 		#print("main loop:", i)
 		array = parse(tWORD, array, i)
