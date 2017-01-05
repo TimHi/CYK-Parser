@@ -35,10 +35,9 @@ def parseFirst(tWORD, array):
 		foundC = findRules(findC)
 		array[0][i] = foundC
 		if(len(foundC) == 0):
-			print("Word cant be build")
-			print(array)
+			print("Word cant be build with the given Grammar")
+			#print(array)
 			#return 1
-	#print(array)
 	return array
 
 
@@ -46,12 +45,8 @@ def getDiag(array, possibleProductions, currentLength, currentHeight, length, i,
 	#Get Diagonal item from array
 	#Diag length is the current height + the current length
 	indexDiagLenght = currentHeight + currentLength
-	#Diag always starts at Height 0 
 	indexDiagHeight = 0
-	#print("currentHeight", currentHeight)
 	for diagLoopIndex in range(currentHeight):
-		#print("STELLE: ", indexDiagHeight, "|", indexDiagLenght)
-		#print(array[indexDiagHeight][indexDiagLenght])
 		tempDiag = array[indexDiagHeight][indexDiagLenght]
 		if(tempDiag == 0):
 			tempDiag = ['EMPTY']
@@ -61,63 +56,67 @@ def getDiag(array, possibleProductions, currentLength, currentHeight, length, i,
 		#MOVE DIAG LEFT UP
 		indexDiagLenght = indexDiagLenght - 1
 		indexDiagHeight = indexDiagHeight + 1
-		
-	#print("Loop finished Diag list:")
-	#print(diagList)
-	#COMBINE POSSIBLELIST + TEMPLIST AND CHECK IF RULE IS FOUND
 	return diagList
 
 
-#MIGHT BE FINE
-def getDown(array, possibleProductions, currentHeight, currentLength):
-	#print("getDown")
 
+def getDown(array, possibleProductions, currentHeight, currentLength):
 	for indexHeight in range(currentHeight):
-		#if 0 dann ['0'] oder so
-		#print("tempSignal= ", indexHeight, "|", currentLength)
 		tempSignal = array[indexHeight][currentLength]
 		if(tempSignal == 0):
+			#Add a empty element so both lists keep the same length
 			possibleProductions.append(['EMPTY'])
-			#print("No Production, ignore")
 		else:
-			#print("tempSignal", tempSignal)
-			#print("array:", array[indexHeight][currentLength])
 			possibleProductions.append(tempSignal)
+	#Reverse list because algorithm usually works the other way 
 	possibleProductions.reverse()
-	#print("---EXIT GETDOWN")
 	return possibleProductions
 
+
 def checkCombinations(array, possibleProductions, diagList, currentLength, currentHeight):
-	print("CHECKING COMBINATIONS")
+	#clear rulesFound for the next field
 	rulesFound = []
-	#charItem: ['CB, CF']
-	#rule: AB
-	print("possibleProductions:", possibleProductions, len(possibleProductions))
-	print("diagList: ", diagList, len(diagList))
-	#array[currentHeight][currentLenght] = foundComb
-	print("DONE CHECKING COMBINATIONS")
-	return array
+	#range doesnt matter because both lists have the same length
+	for i in range(len(possibleProductions)):
+		#Check for multiple characters in possibleProductions list
+		for u in range(len(possibleProductions[i])):
+			tempPos = possibleProductions[i][u]
+			#Check for multiple characters in diagList
+			for h in range(len(diagList[i])):
+				tempDiag = diagList[i][h] 
+				#If one of the two characters is set as empty there cant be a production due to CNF
+				if(tempPos == ['EMPTY']):
+					dummy = 9
+				elif(tempDiag == ['EMPTY']):
+					dummy = 9	
+				else:
+					searchC = ''.join(item for item in tempPos + tempDiag)
+					for k, l in rules.items():
+						for rule in l:
+							if rule == searchC:
+								rulesFound.append(k)
+	if(len(rulesFound) == 0):
+		#No rules found, dont make a entry
+		return array
+	else:
+		#Rule found enter Rule in field 
+		array[currentHeight][currentLength] = rulesFound
+		return array
+
 
 def parse(tWORD, array, i):
 	length = len(tWORD)
 	currentHeight = i
 	#The algorithm doesnt need to check every field in the array
 	widthLength = length - i
-	#print("currentHeight", currentHeight)
 	for currentLength in range(widthLength):
-		#print("----FOR LOOP----")
-		print("CHECKING HEIGHT: ",currentHeight, "LENGHTH:",  currentLength)
 		possibleProductions = []
 		diagList = []
+
 		possibleProductions = getDown(array, possibleProductions, currentHeight, currentLength)
 		diagList = getDiag(array, possibleProductions, currentLength, currentHeight, length, i, diagList)
-		
-		#print("possibleProductions:", possibleProductions)
-		#print("diagList: ", diagList)
 
 		array = checkCombinations(array, possibleProductions, diagList, currentLength, currentHeight)
-		
-		print("---LOOP ENDED---")
 	return array
 
 def main():
@@ -127,16 +126,29 @@ def main():
 	args = parser.parse_args()
 	tWORD = args.WORD 
 
-	#WORD = input("Enter the word to test \n")
 	array = initArray(tWORD)
 	array = parseFirst(tWORD, array)
-	
-	#array[1][2] = ['G']
-	#array[2][1] = ['K']
+	height = len(tWORD) - 1
 	for i in range(1, len(tWORD)):
-		#print("main loop:", i)
 		array = parse(tWORD, array, i)
-	print(array)
+	#print(array)
+
+	checkWord = array[height][0]
+	if(checkWord == 0):
+		print("Word cant be built with the given Grammar") 
+	
+	else:
+		possible = False
+
+		for h in range(len(checkWord)):
+			if(checkWord[h] == 'S'):
+				possible = True
+				#print("Word can be built with the given Grammar")
+		if(possible == True):
+			print("Word can be built with the given Grammar")
+		else:
+			print("Word cant be built with the given Grammar")
+
 
 if __name__ == "__main__":
 	main()
