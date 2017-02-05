@@ -36,8 +36,7 @@ def parseFirst(tWORD, array):
 		array[0][i] = foundC
 		if(len(foundC) == 0):
 			print("Word cant be build with the given Grammar")
-			#print(array)
-			#return 1
+
 	return array
 
 
@@ -51,7 +50,7 @@ def getDiag(array, possibleProductions, currentLength, currentHeight, length, i,
 		if(tempDiag == 0):
 			tempDiag = ['EMPTY']
 			diagList.append(tempDiag)
-		else: 
+		else:
 			diagList.append(tempDiag)
 		#MOVE DIAG LEFT UP
 		indexDiagLenght = indexDiagLenght - 1
@@ -68,7 +67,7 @@ def getDown(array, possibleProductions, currentHeight, currentLength):
 			possibleProductions.append(['EMPTY'])
 		else:
 			possibleProductions.append(tempSignal)
-	#Reverse list because algorithm usually works the other way 
+	#Reverse list because algorithm usually works the other way around
 	possibleProductions.reverse()
 	return possibleProductions
 
@@ -83,23 +82,24 @@ def checkCombinations(array, possibleProductions, diagList, currentLength, curre
 			tempPos = possibleProductions[i][u]
 			#Check for multiple characters in diagList
 			for h in range(len(diagList[i])):
-				tempDiag = diagList[i][h] 
+				tempDiag = diagList[i][h]
 				#If one of the two characters is set as empty there cant be a production due to CNF
 				if(tempPos == ['EMPTY']):
 					dummy = 9
 				elif(tempDiag == ['EMPTY']):
-					dummy = 9	
+					dummy = 9
 				else:
 					searchC = ''.join(item for item in tempPos + tempDiag)
 					for k, l in rules.items():
 						for rule in l:
 							if rule == searchC:
 								rulesFound.append(k)
+
 	if(len(rulesFound) == 0):
 		#No rules found, dont make a entry
 		return array
 	else:
-		#Rule found enter Rule in field 
+		#Rule found enter Rule in field
 		array[currentHeight][currentLength] = rulesFound
 		return array
 
@@ -112,11 +112,10 @@ def parse(tWORD, array, i):
 	for currentLength in range(widthLength):
 		possibleProductions = []
 		diagList = []
-
 		possibleProductions = getDown(array, possibleProductions, currentHeight, currentLength)
 		diagList = getDiag(array, possibleProductions, currentLength, currentHeight, length, i, diagList)
-
 		array = checkCombinations(array, possibleProductions, diagList, currentLength, currentHeight)
+
 	return array
 
 def main():
@@ -124,7 +123,7 @@ def main():
 	group = parser.add_mutually_exclusive_group()
 	parser.add_argument("WORD", type=str, help="word to parse")
 	args = parser.parse_args()
-	tWORD = args.WORD 
+	tWORD = args.WORD
 
 	array = initArray(tWORD)
 	array = parseFirst(tWORD, array)
@@ -135,17 +134,16 @@ def main():
 
 	checkWord = array[height][0]
 	if(checkWord == 0):
-		print("Word cant be built with the given Grammar") 
-	
+		print("Word cant be built with the given Grammar")
+
 	else:
 		possible = False
-
 		for h in range(len(checkWord)):
 			if(checkWord[h] == 'S'):
 				possible = True
-				#print("Word can be built with the given Grammar")
 		if(possible == True):
 			print("Word can be built with the given Grammar")
+			print(array)
 		else:
 			print("Word cant be built with the given Grammar")
 
