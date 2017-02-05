@@ -13,7 +13,7 @@ Enter the grammar in the file grammar.py like this:
 >F -> AD  
 >rules = {'S': ['AB'],'A': ['CD','CF'], 'B': ['c','EB'], 'C': ['a'], 'D' : ['b'], 'E' : ['c'], 'F' : ['AD']}  
 
-To start the script enter:  
+Start parsing with:  
 >python cykparse.py wordToParse  
 
 
