@@ -14,7 +14,7 @@ Enter the grammar in the file grammar.py like this:
 >rules = {'S': ['AB'],'A': ['CD','CF'], 'B': ['c','EB'], 'C': ['a'], 'D' : ['b'], 'E' : ['c'], 'F' : ['AD']}  
 
 Start parsing with:  
->python cykparse.py wordToParse  
+>python cykpars.py wordToParse  
 
 
 Note: the script is written in Python 3 so you need to make sure to start it with the correct version.   
