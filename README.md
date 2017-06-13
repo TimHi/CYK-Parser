@@ -1,7 +1,7 @@
 # CYK Parser
 Cocke Younger Kasami algorithm written in Python.  
 
-#Usage  
+## Usage  
 
 Enter the grammar in the file grammar.py like this:  
 >S -> AB  
@@ -13,7 +13,7 @@ Enter the grammar in the file grammar.py like this:
 >F -> AD  
 >rules = {'S': ['AB'],'A': ['CD','CF'], 'B': ['c','EB'], 'C': ['a'], 'D' : ['b'], 'E' : ['c'], 'F' : ['AD']}  
 
-Start parsing with:  
+### Start parsing with:  
 >python cykpars.py wordToParse  
 
 
